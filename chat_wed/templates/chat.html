@@ -2,200 +2,354 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Chat riêng tư</title>
+    <title>Modern Chat</title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: Arial;
-            background: #eef2f7;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #111827, #1e3a8a);
         }
 
-        .header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 18px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header a {
-            color: white;
-            text-decoration: none;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 14px;
-            border-radius: 8px;
-        }
-
-        .main {
-            width: 950px;
-            height: 600px;
-            margin: 30px auto;
+        .app {
+            width: 1050px;
+            height: 650px;
+            margin: 35px auto;
             background: white;
+            border-radius: 25px;
             display: flex;
-            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
         }
 
         .sidebar {
-            width: 260px;
-            background: #f1f3f8;
-            border-right: 1px solid #ddd;
-            padding: 20px;
+            width: 300px;
+            background: #111827;
+            color: white;
+            padding: 22px;
         }
 
-        .sidebar h3 {
-            margin-top: 0;
+        .profile {
+            background: #1f2937;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .profile b {
+            color: #60a5fa;
         }
 
         .user {
             display: block;
-            padding: 12px;
+            padding: 13px 15px;
             margin-bottom: 10px;
-            background: white;
-            color: #333;
+            background: #1f2937;
+            color: white;
             text-decoration: none;
-            border-radius: 12px;
+            border-radius: 14px;
         }
 
         .user:hover, .active {
-            background: #667eea;
+            background: #2563eb;
+        }
+
+        .logout {
+            display: block;
+            margin-top: 20px;
             color: white;
+            text-decoration: none;
+            background: #374151;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .delete-account {
+            width: 100%;
+            margin-top: 10px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
         }
 
         .chat-area {
             flex: 1;
             display: flex;
             flex-direction: column;
+            background: #f3f4f6;
         }
 
-        .chat-title {
-            padding: 18px;
-            border-bottom: 1px solid #ddd;
-            font-weight: bold;
-        }
-
-        .chat-box {
-            flex: 1;
+        .chat-header {
             padding: 20px;
-            overflow-y: auto;
-            background: #f7f9fc;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
         }
 
-        .message {
-            max-width: 70%;
+        .chat-header h3 {
+            margin: 0;
+        }
+
+        .search-box input {
+            width: 100%;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #d1d5db;
+            outline: none;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 22px;
+            overflow-y: auto;
+        }
+
+        .msg {
+            max-width: 65%;
             padding: 12px 15px;
-            margin-bottom: 12px;
-            border-radius: 15px;
+            margin-bottom: 14px;
+            border-radius: 18px;
             clear: both;
+            word-wrap: break-word;
         }
 
         .me {
-            background: #667eea;
-            color: white;
             float: right;
-            border-bottom-right-radius: 3px;
+            background: #2563eb;
+            color: white;
+            border-bottom-right-radius: 4px;
         }
 
         .other {
-            background: #e4e6eb;
-            color: #333;
             float: left;
-            border-bottom-left-radius: 3px;
+            background: white;
+            color: #111827;
+            border-bottom-left-radius: 4px;
         }
 
         .time {
             font-size: 11px;
             opacity: 0.7;
-            margin-top: 5px;
+            margin-top: 6px;
         }
 
-        form {
+        .actions {
+            margin-top: 7px;
             display: flex;
-            padding: 15px;
-            border-top: 1px solid #ddd;
-            background: white;
+            gap: 6px;
         }
 
-        input {
+        .actions button {
+            font-size: 11px;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 8px;
+            cursor: pointer;
+        }
+
+        .delete-msg {
+            background: #f97316;
+            color: white;
+        }
+
+        .recall-msg {
+            background: #ef4444;
+            color: white;
+        }
+
+        .send-form {
+            display: flex;
+            gap: 10px;
+            padding: 18px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .send-form input {
             flex: 1;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid #d1d5db;
             outline: none;
         }
 
-        button {
-            margin-left: 10px;
-            padding: 13px 22px;
+        .send-form button {
+            padding: 14px 24px;
             border: none;
-            border-radius: 12px;
-            background: #667eea;
+            border-radius: 14px;
+            background: #2563eb;
             color: white;
             cursor: pointer;
+            font-weight: bold;
         }
 
         .empty {
             text-align: center;
-            color: #777;
-            margin-top: 200px;
+            margin-top: 250px;
+            color: #6b7280;
+            font-size: 18px;
         }
     </style>
 </head>
+
 <body>
 
-<div class="header">
-    <h2>Ứng dụng nhắn tin</h2>
-    <div>
-        Xin chào, <b>{{ username }}</b>
-        &nbsp;
-        <a href="/logout">Đăng xuất</a>
-    </div>
-</div>
-
-<div class="main">
+<div class="app">
     <div class="sidebar">
-        <h3>Tài khoản</h3>
+        <h2>Chat App</h2>
+
+        <div class="profile">
+            Tài khoản:<br>
+            <b>{{ username }}</b>
+        </div>
+
+        <h3>Người dùng</h3>
 
         {% for user in users %}
-            <a class="user {% if selected_user == user[0] %}active{% endif %}" href="/chat?user={{ user[0] }}">
-                {{ user[0] }}
+            <a class="user {% if selected_user == user['username'] %}active{% endif %}"
+               href="/chat?user={{ user['username'] }}">
+                {{ user['username'] }}
             </a>
         {% endfor %}
+
+        <a class="logout" href="/logout">Đăng xuất</a>
+
+        <form method="POST" action="/delete_account"
+              onsubmit="return confirm('Bạn có chắc muốn xoá tài khoản này không?');">
+            <button class="delete-account" type="submit">Xoá tài khoản</button>
+        </form>
     </div>
 
     <div class="chat-area">
         {% if selected_user %}
-            <div class="chat-title">
-                Đang nhắn với: {{ selected_user }}
+            <div class="chat-header">
+                <h3>Đang nhắn với: {{ selected_user }}</h3>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm tin nhắn...">
+                </div>
             </div>
 
-            <div class="chat-box">
-                {% for msg in messages %}
-                    {% if msg[0] == username %}
-                        <div class="message me">
-                    {% else %}
-                        <div class="message other">
-                    {% endif %}
-                            <div>{{ msg[2] }}</div>
-                            <div class="time">{{ msg[3] }}</div>
-                        </div>
-                {% endfor %}
-            </div>
+            <div class="messages" id="messages"></div>
 
-            <form method="POST">
-                <input type="hidden" name="receiver" value="{{ selected_user }}">
-                <input type="text" name="message" placeholder="Nhập tin nhắn..." required>
+            <form class="send-form" id="sendForm">
+                <input type="hidden" id="receiver" value="{{ selected_user }}">
+                <input type="text" id="messageInput" placeholder="Nhập tin nhắn..." autocomplete="off" required>
                 <button type="submit">Gửi</button>
             </form>
         {% else %}
-            <div class="empty">
-                Chọn một tài khoản bên trái để bắt đầu nhắn tin
-            </div>
+            <div class="empty">Chọn một tài khoản bên trái để bắt đầu nhắn tin</div>
         {% endif %}
     </div>
 </div>
+
+<script>
+    const currentUser = "{{ username }}";
+    const selectedUser = "{{ selected_user }}";
+    const messagesBox = document.getElementById("messages");
+    const sendForm = document.getElementById("sendForm");
+    const messageInput = document.getElementById("messageInput");
+    const searchInput = document.getElementById("searchInput");
+
+    let lastContent = "";
+
+    function loadMessages() {
+        if (!selectedUser || !messagesBox) return;
+
+        const keyword = searchInput ? searchInput.value : "";
+
+        fetch(`/get_messages?user=${selectedUser}&keyword=${encodeURIComponent(keyword)}`)
+            .then(response => response.json())
+            .then(data => {
+                let html = "";
+
+                data.forEach(msg => {
+                    const isMe = msg.sender === currentUser;
+
+                    html += `
+                        <div class="msg ${isMe ? "me" : "other"}">
+                            <div>${msg.message}</div>
+                            <div class="time">${msg.created_at}</div>
+
+                            <div class="actions">
+                                <button class="delete-msg" onclick="deleteMessage(${msg.id})">Xoá</button>
+
+                                ${isMe && msg.recalled === 0 ? `
+                                    <button class="recall-msg" onclick="recallMessage(${msg.id})">Thu hồi</button>
+                                ` : ""}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if (html !== lastContent) {
+                    messagesBox.innerHTML = html;
+                    messagesBox.scrollTop = messagesBox.scrollHeight;
+                    lastContent = html;
+                }
+            });
+    }
+
+    if (sendForm) {
+        sendForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append("receiver", selectedUser);
+            formData.append("message", messageInput.value);
+
+            fetch("/send_message", {
+                method: "POST",
+                body: formData
+            }).then(() => {
+                messageInput.value = "";
+                loadMessages();
+            });
+        });
+    }
+
+    function deleteMessage(messageId) {
+        if (!confirm("Bạn muốn xoá tin nhắn này khỏi phía bạn?")) return;
+
+        const formData = new FormData();
+        formData.append("message_id", messageId);
+
+        fetch("/delete_message", {
+            method: "POST",
+            body: formData
+        }).then(() => {
+            loadMessages();
+        });
+    }
+
+    function recallMessage(messageId) {
+        if (!confirm("Bạn muốn thu hồi tin nhắn này với cả hai người?")) return;
+
+        const formData = new FormData();
+        formData.append("message_id", messageId);
+
+        fetch("/recall_message", {
+            method: "POST",
+            body: formData
+        }).then(() => {
+            loadMessages();
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener("input", loadMessages);
+    }
+
+    loadMessages();
+    setInterval(loadMessages, 1000);
+</script>
 
 </body>
 </html>
