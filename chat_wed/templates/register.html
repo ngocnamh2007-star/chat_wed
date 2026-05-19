@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            width: 380px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5566d6;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Đăng ký tài khoản</h2>
+
+    <p class="error">{{ error }}</p>
+
+    <form method="POST">
+        <input type="text" name="username" placeholder="Tên tài khoản" required>
+        <input type="password" name="password" placeholder="Mật khẩu" required>
+        <button type="submit">Tạo tài khoản</button>
+    </form>
+
+    <a href="/login">Đã có tài khoản? Đăng nhập</a>
+</div>
+
+</body>
+</html>

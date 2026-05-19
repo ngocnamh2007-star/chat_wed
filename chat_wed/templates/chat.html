@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat riêng tư</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #eef2f7;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 14px;
+            border-radius: 8px;
+        }
+
+        .main {
+            width: 950px;
+            height: 600px;
+            margin: 30px auto;
+            background: white;
+            display: flex;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .sidebar {
+            width: 260px;
+            background: #f1f3f8;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+        }
+
+        .user {
+            display: block;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            border-radius: 12px;
+        }
+
+        .user:hover, .active {
+            background: #667eea;
+            color: white;
+        }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-title {
+            padding: 18px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f7f9fc;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 15px;
+            clear: both;
+        }
+
+        .me {
+            background: #667eea;
+            color: white;
+            float: right;
+            border-bottom-right-radius: 3px;
+        }
+
+        .other {
+            background: #e4e6eb;
+            color: #333;
+            float: left;
+            border-bottom-left-radius: 3px;
+        }
+
+        .time {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        form {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background: white;
+        }
+
+        input {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        button {
+            margin-left: 10px;
+            padding: 13px 22px;
+            border: none;
+            border-radius: 12px;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Ứng dụng nhắn tin</h2>
+    <div>
+        Xin chào, <b>{{ username }}</b>
+        &nbsp;
+        <a href="/logout">Đăng xuất</a>
+    </div>
+</div>
+
+<div class="main">
+    <div class="sidebar">
+        <h3>Tài khoản</h3>
+
+        {% for user in users %}
+            <a class="user {% if selected_user == user[0] %}active{% endif %}" href="/chat?user={{ user[0] }}">
+                {{ user[0] }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="chat-area">
+        {% if selected_user %}
+            <div class="chat-title">
+                Đang nhắn với: {{ selected_user }}
+            </div>
+
+            <div class="chat-box">
+                {% for msg in messages %}
+                    {% if msg[0] == username %}
+                        <div class="message me">
+                    {% else %}
+                        <div class="message other">
+                    {% endif %}
+                            <div>{{ msg[2] }}</div>
+                            <div class="time">{{ msg[3] }}</div>
+                        </div>
+                {% endfor %}
+            </div>
+
+            <form method="POST">
+                <input type="hidden" name="receiver" value="{{ selected_user }}">
+                <input type="text" name="message" placeholder="Nhập tin nhắn..." required>
+                <button type="submit">Gửi</button>
+            </form>
+        {% else %}
+            <div class="empty">
+                Chọn một tài khoản bên trái để bắt đầu nhắn tin
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
