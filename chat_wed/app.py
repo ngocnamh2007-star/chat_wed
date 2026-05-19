@@ -151,6 +151,7 @@ def logout():
     session.clear()
     return redirect("/login")
 
+create_tables()
 
 if __name__ == "__main__":
     create_tables()
